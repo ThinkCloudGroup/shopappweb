@@ -63,7 +63,6 @@ public class CustomPreZuulFilter extends ZuulFilter {
         return null;
     }
 
-    @Override
     public boolean shouldFilter() {
         return true;
     }
