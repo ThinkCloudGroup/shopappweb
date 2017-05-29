@@ -18,8 +18,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.min.js"></script>
 
 <script type="text/javascript" src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
-
+<!-- 
 <script th:src="@{/resources/angular-utf8-base64.min.js}"></script>
+ -->
 <script>
 /*<![CDATA[*/
 var app = angular.module('myApp', ["ngResource","ngRoute","ngCookies","angular-jwt"]);
@@ -46,7 +47,7 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
     }else{
         if($cookies.get("access_token")){
             $http.defaults.headers.common.Authorization= 'Bearer ' + $cookies.get("access_token");
-            getOrganization();
+            //getOrganization();
             $scope.isLoggedIn = true;
         }else{
         	obtainAccessToken($scope.refreshData);
@@ -76,13 +77,14 @@ app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
             data: $httpParamSerializer(params)
         }
+        console.log($httpParamSerializer(params));
         $http(req).then(
             function(data){
                 $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
                 var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
                 $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
                 window.location.href="index";
-            },function(){
+            },function(err){
                 console.log("error");
                 window.location.href = "login";
             }
