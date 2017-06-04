@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8"/>
+<!-- CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css"></link>
+<style>
+body {
+	padding-top: 50px;
+}
+/*
+.hide 
+{
+    display: none !important;
+}
+
+
+
+
+
+
+.animate-show-hide.ng-hide {
+  opacity: 0;
+}
+
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+  transition: all linear 0.5s;
+}
+
+.check-element {
+  border: 1px solid black;
+  opacity: 1;
+  padding: 10px;
+}*/
+</style>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Shopapp Web | Think Cloud Group</title>
+<!-- 
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+ -->
+<!-- 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" th:href="@{/}">Spring Security OAuth</a>
+    </div>
+    <p class="navbar-text navbar-right">{{organization}} &nbsp; &nbsp; &nbsp;</p>
+  </div>
+</nav>
+ -->
+
+<!-- /.container-fluid -->
+<!-- 
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-cookies.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-messages.js"></script>
+-->
+
+	<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+	
+    <script src="//code.angularjs.org/1.6.4/angular.min.js"></script>
+    <script	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular-resource.min.js"></script>
+    <script src="//code.angularjs.org/1.6.4/angular-cookies.min.js"></script>
+    <script src="//code.angularjs.org/1.6.4/angular-route.min.js"></script>    
+    <script	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.js"></script>
+    
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>  -->
+	<script	src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.min.js"></script>
+	<script type="text/javascript" src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
+
+
+<script>
+/*<![CDATA[*/
+// Define app variable with modules           
+app = angular.module('app', ["ngResource","ngRoute","ngCookies","angular-jwt","ngMessages"]);
+// Define controller called mainCtrl
+app.controller('mainCtrl', function($scope,$resource,$http,$httpParamSerializer,$cookies,jwtHelper) {
+
+    $scope.isLoggedIn = false;
+   
+    $scope.loginData = {grant_type:"password", username: "", password: "", client_id: "fooClientIdPassword"};
+    $scope.refreshData = {grant_type:"refresh_token"};
+        
+    var isLoginPage = window.location.href.indexOf("login") != -1;
+    if(isLoginPage){
+        if($cookies.get("access_token")){
+            window.location.href = "index";
+        }
+    }else{
+        if($cookies.get("access_token")){
+            $http.defaults.headers.common.Authorization= 'Bearer ' + $cookies.get("access_token");
+            //getOrganization();
+            $scope.isLoggedIn = true;
+        }else{
+        	obtainAccessToken($scope.refreshData);
+            $scope.isLoggedIn = false;
+            
+            //window.location.href = "login";
+        }
+    } 
+    /*
+    $scope.errors = [];
+    $scope.hasError = false;
+    $scope.closeAlert = function (index) {
+        $scope.errors.splice(index, 1);
+    }*/
+
+    
+    $scope.login = function() {
+    	$scope.errors = [];
+    	$scope.hasError = false;
+    	$scope.closeAlert = function (index) {
+    	    $scope.errors.splice(index, 1);
+    	}
+    	obtainAccessToken($scope.loginData);
+    }
+    
+    
+    $scope.refreshAccessToken = function(){
+    	obtainAccessToken($scope.refreshData);
+    }
+	
+    $scope.logout = function() {
+        logout($scope.loginData);
+	}
+    
+    function obtainAccessToken(params){
+        var req = {
+            method: 'POST',
+            url: "oauth/token",
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=utf-8"},
+            data: $httpParamSerializer(params)
+        }
+        console.log($httpParamSerializer(params));
+        $http(req).then(
+            function(data){
+                $http.defaults.headers.common.Authorization= 'Bearer ' + data.data.access_token;
+                var expireDate = new Date (new Date().getTime() + (1000 * data.data.expires_in));
+                $cookies.put("access_token", data.data.access_token, {'expires': expireDate});
+                window.location.href="index";
+            },function(err){
+            	$scope.hasError = true;
+            	if(err.data.error_description=="Bad credentials"){
+            		$scope.errors.push('Credenciales erradas. Intente de nuevo.');	 
+            	}else{
+            		$scope.errors.push('Error. Intente de nuevo.');
+            		console.log(err);
+            	}
+            }
+        );
+    }
+    
+    function getOrganization(){
+    	var token = $cookies.get("access_token");
+    	//JWT
+    	// var payload = jwtHelper.decodeToken(token);
+    	//console.log(payload);
+    	//$scope.organization = payload.organization; 
+    	
+    	//JDBC
+    	 $http.get("http://localhost:8082/spring-security-oauth-resource/users/extra")
+        .then(function(response) {
+        	console.log(response);
+            $scope.organization = response.data.organization;
+        }); 
+    }
+	
+    function logout(params) {
+        var req = {
+            method: 'DELETE',
+            url: "oauth/token"
+        }
+        $http(req).then(
+            function(data){
+			    $cookies.remove("access_token");
+			    window.location.href="login";
+            },function(){
+                console.log("error");
+            }
+        );
+    }
+    
+});
+
+/*]]>*/
+</script>
+</head>
+<body class="container" ng-app="app" ng-controller="mainCtrl">
+	<!-- 
+<div th:include="header"></div>
+-->
+	<div class="container">
+		<div class="well text-center">
+			<h1>Shopapp Web Admin Account Login</h1>
+		</div>
+		<div class="col-sm-6">
+			<form name="userForm" >
+				<div class="form-group col-sm-12" ng-class="{ 'has-error': userForm.email.$touched &amp;&amp; userForm.email.$invalid }">
+					<!--  <div class="col-sm-12"> -->
+					<label class="col-sm-3">Email</label> <input
+						class="form-control" type="text" placeholder="Email"
+						ng-model="loginData.username" id="email" name="email"
+						required="required" ng-minlength="3" ng-maxlength="100" />
+
+					<div class="help-block" ng-messages="userForm.email.$error"
+						ng-if="userForm.email.$touched">
+						<p ng-message="minlength">El Email es muy corto</p>
+						<p ng-message="maxlength">El Email es muy largo</p>
+						<p ng-message="required">Ingrese el email</p>
+					</div>
+
+				</div>
+
+				<div class="form-group col-sm-12" ng-class="{ 'has-error': userForm.pass.$touched &amp;&amp; userForm.pass.$invalid }">
+					<label class="col-sm-3">Password</label> <input
+						class="form-control" type="password" id="pass" name = "pass"
+						placeholder="Password" ng-model="loginData.password"
+						required="required" ng-minlength="3" ng-maxlength="100"  />
+
+					<div class="help-block" ng-messages="userForm.pass.$error" ng-if="userForm.pass.$touched">
+						<p ng-message="minlength">Su Password es muy corto</p>
+						<p ng-message="maxlength">Su Password es muy largo</p>
+						<p ng-message="required">Ingrese el password</p>
+					</div>
+				</div>
+
+				<div class="col-sm-12">
+					<button class="btn btn-primary" href="#"
+						ng-click="bool=true;login();">Login</button>
+					<button class="btn btn-primary" href="#"
+						ng-click="bool=true;login();">New Account</button>
+				</div>
+				
+				
+				<div class="help-block" ng-show="hasError">
+					<alert ng-repeat="error in errors track by $index" type="danger"  close="closeAlert($index)">{{error}}</alert>
+				</div>
+				<!-- 
+				<input type="checkbox" ng-model="checked" aria-label="Toggle ngShow"><br />
+				<div class="check-element animate-show-hide" ng-show="checked">
+				  I show up when your checkbox is checked.
+				</div>
+				-->
+				<!-- 
+				<div name = "custom" ng-messages="userForm.email.$error">
+		        	<div ng-message="server">{{formErrors.email}}</div>
+		      	</div>
+		      	 -->
+		      	
+				<!-- 
+				<div ng-show="{ 'hide': ngHideVal }"> I'm Angular2 ngHide... </div>
+				-->
+				<!-- 
+				<span ng-show="userForm.server.$error.required">Year is Required.</span>
+				 -->
+			<!-- 	
+				<div name="server" ng-messages="userForm.server.$error" style="color:red">
+			        <div ng-message-exp="validationError">ERROR</div>
+			    </div>
+			    -->
+			    
+<!-- 
+				<div class="form-group">
+					<button type="submit" class="btn btn-danger">Submit</button>
+				</div>
+ -->
+				<!--  	
+				 <div ng-show="form.email.$invalid" >{{errors.email}}</div> 
+				-->
+				<!-- <div ng-if="errorMessage">{{ errorMessage }}</div>  -->
+
+			</form>
+		</div>
+	</div>
+</body>
+</html>

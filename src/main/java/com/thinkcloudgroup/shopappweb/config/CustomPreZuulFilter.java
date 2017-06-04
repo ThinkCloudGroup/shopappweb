@@ -20,7 +20,6 @@ public class CustomPreZuulFilter extends ZuulFilter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
     public Object run() {
         final RequestContext ctx = RequestContext.getCurrentContext();
         logger.info("in zuul filter " + ctx.getRequest().getRequestURI());

@@ -22,7 +22,6 @@ public class CustomPostZuulFilter extends ZuulFilter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Override
     public Object run() {
         final RequestContext ctx = RequestContext.getCurrentContext();
         logger.info("in zuul filter " + ctx.getRequest().getRequestURI());
@@ -62,7 +61,6 @@ public class CustomPostZuulFilter extends ZuulFilter {
         return null;
     }
 
-    @Override
     public boolean shouldFilter() {
         return true;
     }

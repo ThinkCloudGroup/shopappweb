@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.resource.GzipResourceResolver;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 //@EnableWebMvc
@@ -28,14 +30,21 @@ public class UiWebConfig extends WebMvcConfigurerAdapter {
         super.addViewControllers(registry);
         registry.addViewController("/").setViewName("forward:/index");
         registry.addViewController("/index");
-        registry.addViewController("/index_example");
-        //registry.addViewController("/indexorg");
         registry.addViewController("/login");
+        registry.addViewController("/home");
+        registry.addViewController("/dashboard/index");
+        //registry.addViewController("/blur-admin/src/index");
+
     }
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
+        
+        .setCachePeriod(0)
+        .resourceChain(true)
+        .addResolver(new GzipResourceResolver())
+        .addResolver(new PathResourceResolver());
     }
 
 }
