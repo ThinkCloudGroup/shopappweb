@@ -1,0 +1,6 @@
+com/thinkcloudgroup/shopappweb/config/UiWebConfig.class
+com/thinkcloudgroup/shopappweb/config/CustomPostZuulFilter$1.class
+com/thinkcloudgroup/shopappweb/config/CustomPreZuulFilter.class
+com/thinkcloudgroup/shopappweb/config/CustomHttpServletRequest.class
+com/thinkcloudgroup/shopappweb/config/UiApplication.class
+com/thinkcloudgroup/shopappweb/config/CustomPostZuulFilter.class

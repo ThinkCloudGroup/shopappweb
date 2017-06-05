@@ -33,8 +33,6 @@ public class UiWebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/login");
         registry.addViewController("/home");
         registry.addViewController("/dashboard/index");
-        //registry.addViewController("/blur-admin/src/index");
-
     }
 
     @Override
