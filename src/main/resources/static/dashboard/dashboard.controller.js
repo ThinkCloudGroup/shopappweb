@@ -23,25 +23,23 @@ application.config(
 			    });
 		  }
 );
-			    
+application.$inject = [ '$rootScope', '$location',
+                			'AuthenticationService', 'FlashService', '$http',
+                			'$httpParamSerializer', '$cookies', '$routeParams' ];			    
 //['$rootScope', '$location', 'AuthenticationService', 'FlashService', '$http', '$httpParamSerializer', '$cookies']
 
 //Define controller called mainCtrl
-application.controller('DashboardController', function($scope,$resource,$http,$httpParamSerializer,$cookies,jwtHelper) {
-	
-	
-	
-	
+application.controller('DashboardController', function($rootScope,$resource,$http,$httpParamSerializer,$cookies,jwtHelper) {
 	
 	var vm = this;
 
-  $scope.isLoggedIn = false;
+	$rootScope.isLoggedIn = false;
 
-  $scope.loginData = {grant_type:"password", username: "", password: "", client_id: "fooClientIdPassword"};
-  $scope.refreshData = {grant_type:"refresh_token"};
+	$rootScope.loginData = {grant_type:"password", username: "", password: "", client_id: "fooClientIdPassword"};
+	$rootScope.refreshData = {grant_type:"refresh_token"};
   
   
-
+	
   
   //$cookies.remove("access_token");			 
   /*var isLoginPage = window.location.href.indexOf("login") != -1;
@@ -54,31 +52,29 @@ application.controller('DashboardController', function($scope,$resource,$http,$h
       	//$location.path('/dashboard');
       }
   }else{*/
-  $cookies.remove("access_token");
-      if($cookies.get("access_token")){
-          $http.defaults.headers.common.Authorization= 'Bearer ' + $cookies.get("access_token");
+  
+  
+  //$cookies.remove("access_token");
+  console.log($rootScope.globals);
+  //alert($cookies.get("globals"));
+  //var loggedIn = $rootScope.globals;
+      if($cookies.get("globals")){
+    	  var global = angular.fromJson($cookies.get("globals"));
+    	  
+    	 // console.log(test.currentUser.access_token);
+          $http.defaults.headers.common.Authorization= 'Bearer ' + global.currentUser.access_token;
           //getOrganization();
-          $scope.isLoggedIn = true;
+          $rootScope.isLoggedIn = true;
       }else{
       	
       	//obtainAccessToken($scope.refreshData);
-          $scope.isLoggedIn = false;
+    	  $rootScope.isLoggedIn = false;
           window.location.href = "/#!/login";
       }
  // }
   
   
-  
-  (function initController() {
-      // reset login status
-      //AuthenticationService.ClearCredentials();
-  })();
-  
-  
-  
-
- 
-  
+   /*
   
   function obtainAccessToken(params){
       var req = {
@@ -115,10 +111,10 @@ application.controller('DashboardController', function($scope,$resource,$http,$h
   $scope.refreshAccessToken = function(){
   	obtainAccessToken($scope.refreshData);
   }
-	
-  $scope.logout = function() {
-	  $cookies.remove("access_token");
-      logout($scope.loginData);
+	*/
+  $rootScope.logout = function() {
+	  $cookies.remove("globals");
+      logout($rootScope.loginData);
 	}
   
   function logout(params) {
@@ -130,24 +126,24 @@ application.controller('DashboardController', function($scope,$resource,$http,$h
           function(data){
           	console.log("LOGOUT");
 			    //$cookies.remove("access_token");
-          		$cookies.remove("access_token");
-			    delete $cookies['access_token'];
+          		//$cookies.remove("access_token");
+			    //delete $cookies['access_token'];
 			    //$cookies.access_token = undefined;
-			    alert("success logout:"+$cookies.get("access_token"));
-			    $.removeCookie("access_token");
-			    window.location.href = "/#!/login?cleansess=1";
+			    //alert("success logout:"+$cookies.get("access_token"));
+			    //$.removeCookie("access_token");
+			    window.location.href = "/#!/login";
 			   // $location.path('/login');
 			    
           },function(){
           	//$cookies.remove("access_token");
-          	$cookies.remove("access_token");
-          	delete $cookies['access_token'];
-          	alert("ERROR logout:"+$cookies.get("access_token"));
+          	//$cookies.remove("access_token");
+          	//delete $cookies['access_token'];
+          	//alert("ERROR logout:"+$cookies.get("access_token"));
           	//$.removeCookie("access_token");
 			    //alert("after removal:"+$cookies.get("access_token"));
           	window.location.href = "/#!/login?cleansess=1";
-          	console.log("LOGOUT");
-              console.log("error");
+          	//console.log("LOGOUT");
+             // console.log("error");
           }
       );
   }	

@@ -9,7 +9,7 @@
     config.$inject = ['$routeProvider', '$locationProvider'];
     function config($routeProvider, $locationProvider) {
         $routeProvider
-           .when('/', {
+           .when('/home', {
                 controller: 'HomeController',
                 templateUrl: 'home/home.view.html',
                 controllerAs: 'vm'
@@ -43,18 +43,6 @@
             .otherwise({ redirectTo: '/login' });
     }
     
-    /*$provide.factory('myHttpInterceptor', function($q) {
-    	  return {
-    	    'request': function(config) {
-    	      config.url = "localhost:3000/"+config.url
-    	      return config || $q.when(config);
-    	    }
-    	  };
-    	});
-
-    	$httpProvider.interceptors.push('myHttpInterceptor');
-    */
-
     run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
     function run($rootScope, $location, $cookies, $http) {
         // keep user logged in after page refresh

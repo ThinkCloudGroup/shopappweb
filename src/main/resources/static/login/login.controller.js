@@ -3,16 +3,13 @@
 
 	angular.module('app')
 
-	.config(
-			function($routeProvider, $locationProvider, $httpProvider,
-					$httpParamSerializerProvider) {
-
+	.config(function($routeProvider, $locationProvider, $httpProvider, $httpParamSerializerProvider) {
 				// get the serializer from the provider
 				var paramSerializer = $httpParamSerializerProvider.$get();
-				console.log(paramSerializer({
+				/*console.log(paramSerializer({
 					a : 1
 				})); // test it
-
+				 */
 				$routeProvider.when('/', {
 					templateUrl : function(params) {
 						// you can use paramSerializer(here
@@ -40,7 +37,7 @@
 		$scope.refreshData = {
 			grant_type : "refresh_token"
 		};
-
+/*
 		if ($routeParams.cleansess) {
 			$cookies.remove("access_token");
 		}
@@ -61,7 +58,7 @@
 				$scope.isLoggedIn = false;
 			}
 		}
-
+*/
 		(function initController() {
 			// reset login status
 			AuthenticationService.ClearCredentials();
@@ -84,7 +81,7 @@
 			$scope.closeAlert = function(index) {
 				$scope.errors.splice(index, 1);
 			}
-			AuthenticationService.SetCredentials(vm.username, vm.password);
+			
 			obtainAccessToken($scope.loginData, $location);
 		}
 		;
@@ -104,13 +101,14 @@
 							function(data) {
 								$http.defaults.headers.common.Authorization = 'Bearer '
 										+ data.data.access_token;
-								var expireDate = new Date(new Date().getTime()
+								/*var expireDate = new Date(new Date().getTime()
 										+ (1000 * data.data.expires_in));
 								$cookies.put("access_token",
 										data.data.access_token, {
 											'expires' : expireDate
 										});
-
+*/
+								AuthenticationService.SetCredentials($scope.loginData.username, $scope.loginData.password, data.data.access_token, data.data.expires_in);
 								window.location.href = "/dashboard/index";
 
 							},
@@ -120,10 +118,11 @@
 									$scope.errors
 											.push('Credenciales erradas. Intente de nuevo.');
 								} else {
-									//$scope.errors.push('Error. Intente de nuevo.');
-									vm.dataLoading = false;
+									$scope.errors.push('Error. Intente de nuevo.');
+									
 
 								}
+								vm.dataLoading = false;
 							});
 		}
 		;

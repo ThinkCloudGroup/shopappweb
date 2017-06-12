@@ -3,10 +3,23 @@
 
     angular
         .module('app')
+        .config(function($routeProvider, $locationProvider, $httpProvider, $httpParamSerializerProvider) {
+				// get the serializer from the provider
+				var paramSerializer = $httpParamSerializerProvider.$get();
+				/*console.log(paramSerializer({
+					a : 1
+				})); // test it
+				 */
+				$routeProvider.when('/', {
+					templateUrl : function(params) {
+						// you can use paramSerializer(here
+					}
+				});
+			})
         .factory('UserService', UserService);
 
-    UserService.$inject = ['$http'];
-    function UserService($http) {
+    UserService.$inject = ['$http', '$httpParamSerializer'];
+    function UserService($http, $httpParamSerializer) {
         var service = {};
 
         service.GetAll = GetAll;
@@ -31,7 +44,27 @@
         }
 
         function Create(user) {
-            return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
+        	var req = {
+    				method : 'POST',
+    				url : "user/registration",
+    				headers : {
+    					"Content-type" : "application/x-www-form-urlencoded; charset=utf-8"
+    				},
+    				data : $httpParamSerializer(user)
+    			}
+        	
+        	$http(req)
+			.then(
+					function(data) {
+						return data;
+						
+					},
+					function(err) {
+						return error;
+					}
+			);
+        	
+            //return $http.post('/user/registration', user).then(handleSuccess, handleError('Error creating user'));
         }
 
         function Update(user) {
@@ -45,7 +78,7 @@
         // private functions
 
         function handleSuccess(res) {
-            return res.data;
+            return res;//.data;
         }
 
         function handleError(error) {

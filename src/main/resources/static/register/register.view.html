@@ -21,10 +21,34 @@
             <input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required />
             <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
         </div>
+        <div class="form-group" ng-class="{ 'has-error': form.address.$dirty && form.address.$error.required }">
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" class="form-control" ng-model="vm.user.address" />
+        </div>
+         <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" class="form-control" ng-model="vm.user.city" />
+        </div>
+         <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" name="country" id="country" class="form-control" ng-model="vm.user.country" />
+        </div>
+         <div class="form-group" >
+            <label for="address">role</label>
+            <input type="text" name="role" id="role" class="form-control" ng-model="vm.user.role" />
+        </div>
+         <div class="form-group">
+            <label for="address">Roles</label>
+            <input type="text" name="roles" id="roles" class="form-control" ng-model="vm.user.roles" />
+        </div>
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Register</button>
             <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
             <a href="#!/login" class="btn btn-link">Cancel</a>
         </div>
+        
+        <div class="help-block" ng-show="hasError">
+				<alert ng-repeat="error in errors track by $index" type="danger"  close="closeAlert($index)">{{error}}</alert>
+			</div>
     </form>
 </div>
