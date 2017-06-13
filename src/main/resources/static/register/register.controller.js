@@ -21,6 +21,18 @@
     RegisterController.$inject = ['$http','UserService', '$location', '$rootScope', 'FlashService', '$httpParamSerializer'];
     function RegisterController($http, UserService, $location, $rootScope, FlashService, $httpParamSerializer) {
         var vm = this;
+       
+        vm.user = {
+        		firstName : "",
+        		lastName : "",
+        		username : "",
+        		password : "",
+        		address : "",
+        		city : "",
+        		country : "",
+        		role : "",
+        		roles:""
+    		};
 
         vm.register = register;
 
@@ -48,6 +60,15 @@
                 });*/
             var tempPass = vm.user.password;
             vm.user.password = CryptoJS.MD5(vm.user.password).toString();
+            
+           
+           /* $rootScope = {
+        			grant_type : "password",
+        			username : "",
+        			password : "",
+        			client_id : "fooClientIdPassword"
+        		};
+            */
             var req = {
     				method : 'POST',
     				url : "/shopapp/registration",
