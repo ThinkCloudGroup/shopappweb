@@ -2,7 +2,6 @@
 	'use strict';
 
 	angular.module('app')
-
 	.config(function($routeProvider, $locationProvider, $httpProvider, $httpParamSerializerProvider) {
 				// get the serializer from the provider
 				var paramSerializer = $httpParamSerializerProvider.$get();
@@ -15,6 +14,7 @@
 						// you can use paramSerializer(here
 					}
 				});
+				
 			}).controller('LoginController', LoginController);
 
 	LoginController.$inject = [ '$rootScope', '$location',
@@ -23,7 +23,7 @@
 	function LoginController($scope, $location, AuthenticationService,
 			FlashService, $http, $httpParamSerializer, $cookies, $routeParams) {
 		var vm = this;
-
+		
 		vm.login = login;
 
 		$scope.isLoggedIn = false;
@@ -37,7 +37,7 @@
 		$scope.refreshData = {
 			grant_type : "refresh_token"
 		};
-/*
+		
 		if ($routeParams.cleansess) {
 			$cookies.remove("access_token");
 		}
@@ -58,14 +58,17 @@
 				$scope.isLoggedIn = false;
 			}
 		}
-*/
+
 		(function initController() {
+			
 			// reset login status
 			AuthenticationService.ClearCredentials();
 		})();
 
 		function login() {
 			vm.dataLoading = true;
+			
+			 
 			/*
 			AuthenticationService.Login(vm.username, vm.password, function (response) {
 			    if (response.success) {
@@ -87,6 +90,8 @@
 		;
 
 		function obtainAccessToken(params) {
+			var tempPass = params.password;
+			params.password = CryptoJS.MD5(params.password).toString();
 			var req = {
 				method : 'POST',
 				url : "oauth/token",
@@ -113,6 +118,7 @@
 
 							},
 							function(err) {
+								params.password = tempPass;
 								$scope.hasError = true;
 								if (err.data.error_description == "Bad credentials") {
 									$scope.errors

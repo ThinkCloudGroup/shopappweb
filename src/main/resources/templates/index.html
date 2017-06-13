@@ -62,7 +62,12 @@ body {
 <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>  -->
 	<script	src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.js"></script>
 	<script type="text/javascript" src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
-
+	
+<!--  
+	<script src="angular-md5-master/bower_components/angular-md5/angular-md5.js"></script>
+-->		
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+	
     <script src="app.js"></script>
     <script src="app-services/authentication.service.js"></script>
     <script src="app-services/flash.service.js"></script>
@@ -79,6 +84,24 @@ body {
  <!-- 
     <script src="dashboard/dashboard.controller.js"></script>
      -->
+     
+     <script>
+     //alert($.md5('value'));
+     //alert(CryptoJS.MD5("TEST"));
+  /*angular.module('app', [
+    'angular-md5', // you may also use 'ngMd5' or 'gdi2290.md5'
+    'controllers'
+  ]);*/
+  /*angular.module('controllers', [])
+    .controller('MainCtrl', ['$scope', 'md5', function($scope, md5) {
+
+      $scope.$watch('email' ,function() {
+        $scope.message = 'Your email Hash is: ' + md5.createHash($scope.email || '');
+        alert($scope.message);
+      });
+
+    }]);*/
+</script>
    
 </body>
 </html>
