@@ -21,6 +21,8 @@
     RegisterController.$inject = ['$http','UserService', '$location', '$rootScope', 'FlashService', '$httpParamSerializer'];
     function RegisterController($http, UserService, $location, $rootScope, FlashService, $httpParamSerializer) {
         var vm = this;
+        
+        
        
         vm.user = {
         		firstName : "",
@@ -35,7 +37,20 @@
     		};
 
         vm.register = register;
-
+        
+        //vm.user.username.$setValidity("youAreFat", false);
+        
+        //form['username'].$setValidity('required', false);
+        
+        //form['username'].$valid = false;
+        
+        //$scope.formName[inputName].$setValidity
+        /*
+        $rootScope.$watch('password', function(val) {
+            //$scope.message = 'Your message Hash is: ' + md5.createHash($scope.email || '');
+        	 vm.user.password = CryptoJS.MD5(vm.user.password).toString();
+          });
+*/
         function register() {
         	vm.dataLoading = true;
         	$rootScope.errors = [];
@@ -59,7 +74,14 @@
                     }
                 });*/
             var tempPass = vm.user.password;
-            vm.user.password = CryptoJS.MD5(vm.user.password).toString();
+            
+            var tempConfPass = vm.user.confirmPassword;
+            
+            vm.user.password = vm.user.confirPassword = CryptoJS.MD5(vm.user.password).toString();
+            
+           
+            
+            //vm.user.confirPassword = CryptoJS.MD5(vm.user.confirmPassword).toString();
             
            
            /* $rootScope = {
@@ -75,28 +97,47 @@
     				headers : {
     					"Content-type" : "application/x-www-form-urlencoded; charset=utf-8"
     				},
-    				data : $httpParamSerializer(vm.user)
+    				data : $httpParamSerializer(vm.user)/*,
+    				transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
+    	        		console.log("transform response:");
+    	        		console.log(value);
+    				    //return doTransform(value);
+    	        		return value;
+    				  })*/
     			}
         	
         	$http(req)
+        	
 			.then(
 					function(response) {
+						console.log("REGISTRATION RESPONSE:");
 						console.log(response);
-						if(response.data.success==1){
-							vm.dataLoading = false;
+						//response = JSON.parse(response);
+						if(response.data.success==1 || response.success==1){
+							
 							$location.path('/login');
 						}else{
 							vm.user.password = tempPass; 
+							vm.user.confirmPassword = tempConfPass;
 							$rootScope.hasError = true;
 							$rootScope.errors.push(response.data.error);
 						}
+						vm.dataLoading = false;
 					},
 					function(err) {
+						console.log("REGISTRATION RESPONSE ERROR:");
+						
 						vm.user.password = tempPass; 
-						return err;
+						vm.user.confirmPassword = tempConfPass;
+						$rootScope.hasError = true;
+						$rootScope.errors.push(response.data.error);
+						vm.dataLoading = false;
+						
+						//$rootScope.username.$setValidity("youAreFat", false);
+						//$rootScope.username.$valid = false;
+						//return err;
 					}
 			);
         }
     }
-
 })();
