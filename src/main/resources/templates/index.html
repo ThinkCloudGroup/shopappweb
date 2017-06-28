@@ -1,36 +1,45 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
 <head>
-    <meta charset="utf-8" />
-    <title>AngularJS User Registration and Login Example</title>
-    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />  -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css"></link>
-    <link href="app-content/app.css" rel="stylesheet" />
+<meta charset="utf-8" />
+<title>AngularJS User Registration and Login Example</title>
+<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />  -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css"></link>
+<link href="app-content/app.css" rel="stylesheet" />
 
- 
+
+<link href="css/angular-growl.min.css" rel="stylesheet" media="screen" />
+
 <style>
 body {
 	padding-top: 50px;
 }
+
+.box-one {
+  margin:10px 0 20px 0;
+  padding:10px;
+  /*border:1px solid rgba(0,0,0,0.2);
+  background:#f00;
+  color:#fff;*/
+  border-radius:4px;
+
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.box-one.ng-hide {
+  opacity:0;
+  /* transform: scale(0.8); */
+}
 </style>
-  
+
+
 </head>
 <body class="container">
-<!-- 
-    <div class="jumbotron">
-        <div class="container">
-            <div class="col-sm-8 col-sm-offset-2">
-                <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
-                <div ng-view></div>
-            </div>
-        </div>
-    </div>
- -->    
- <!-- 
- 	<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
- 	 -->
-    <div ng-view=""></div>
-<!--   
+
+	<div ng-view=""></div>
+	<!--   
     <div class="credits text-center">
         <p>
             <a href="http://jasonwatmore.com/post/2015/03/10/angularjs-user-registration-and-login-example-tutorial">AngularJS User Registration and Login Example</a>
@@ -43,65 +52,54 @@ body {
     
     
  -->
-   	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-   	
-   	<!-- jQuery cookie by Diego from Cloud Group Corp 
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+	<!-- jQuery cookie by Diego from Cloud Group Corp 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
  	-->
- 	
-    <script src="https://code.angularjs.org/1.6.4/angular.js"></script>
-    
-    <script	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.min.js"></script>
-    
-    <script src="https://code.angularjs.org/1.6.4/angular-cookies.js"></script>
-    <script src="https://code.angularjs.org/1.6.4/angular-route.js"></script>
-    <script src="https://code.angularjs.org/1.6.4/angular-cookies.js"></script>
-    
-    <script	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.js"></script>
-    
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>  -->
-	<script	src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.js"></script>
-	<script type="text/javascript" src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
-	
-<!--  
-	<script src="angular-md5-master/bower_components/angular-md5/angular-md5.js"></script>
--->		
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
-	
-    <script src="app.js"></script>
-    <script src="app-services/authentication.service.js"></script>
-    <script src="app-services/flash.service.js"></script>
 
-    <!-- Real user service that uses an api 
+	<script src="https://code.angularjs.org/1.6.4/angular.js"></script>
+
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.min.js"></script>
+
+	<script src="https://code.angularjs.org/1.6.4/angular-cookies.js"></script>
+	<script src="https://code.angularjs.org/1.6.4/angular-route.js"></script>
+	<script src="https://code.angularjs.org/1.6.4/angular-cookies.js"></script>
+
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.js"></script>
+	<!-- -->
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+
+	<script src="lib/angular-growl.min.js"></script>
+
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+
+	<script src="app.js"></script>
+	<script src="app-services/authentication.service.js"></script>
+	<script src="app-services/flash.service.js"></script>
+
+	<!-- Real user service that uses an api 
     <script src="app-services/user.service.js"></script>
 -->
-    <!-- Fake user service for demo that uses local storage -->
-    <script src="app-services/user.service.local-storage.js"></script>
- 
-    <script src="home/home.controller.js"></script>
-    <script src="login/login.controller.js"></script>
-    <script src="register/register.controller.js"></script>
- <!-- 
-    <script src="dashboard/dashboard.controller.js"></script>
-     -->
-     
-     <script>
-     //alert($.md5('value'));
-     //alert(CryptoJS.MD5("TEST"));
-  /*angular.module('app', [
-    'angular-md5', // you may also use 'ngMd5' or 'gdi2290.md5'
-    'controllers'
-  ]);*/
-  /*angular.module('controllers', [])
-    .controller('MainCtrl', ['$scope', 'md5', function($scope, md5) {
+	<!-- Fake user service for demo that uses local storage -->
+	<script src="app-services/user.service.local-storage.js"></script>
 
-      $scope.$watch('email' ,function() {
-        $scope.message = 'Your email Hash is: ' + md5.createHash($scope.email || '');
-        alert($scope.message);
-      });
+	<script src="home/home.controller.js"></script>
+	<script src="login/login.controller.js"></script>
+	<script src="register/register.controller.js"></script>
+	<script src="forgotpassword/forgotpassword.controller.js"></script>
 
-    }]);*/
-</script>
-   
+	<script src="resetpassword/resetpassword.controller.js"></script>
+
 </body>
 </html>

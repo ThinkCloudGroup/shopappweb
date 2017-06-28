@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies'])
+        .module('app', ['ngRoute', 'ngCookies', 'angular-growl'])
         .config(config)
         .run(run);
 
@@ -39,7 +39,25 @@
                 templateUrl: 'register/register.view.html',
                 controllerAs: 'vm'
             })
-          
+            
+           .when('/forgotpassword', {
+                controller: 'ForgotpasswordController',
+                templateUrl: 'forgotpassword/forgotpassword.view.html',
+                controllerAs: 'vm'
+            })
+            
+             .when('/resetpassword', {
+                controller: 'ResetpasswordController',
+                templateUrl: 'resetpassword/resetpassword.view.html',
+                controllerAs: 'vm'
+            })
+           /* 
+            .when('/resetpassword', {
+                controller: 'ResetpasswordController',
+                templateUrl: 'resetpassword/resetpassword.view.html',
+                controllerAs: 'vm'
+            })
+          */
             .otherwise({ redirectTo: '/login' });
     }
     
@@ -53,7 +71,7 @@
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in and trying to access a restricted page
-            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/forgotpassword',  '/resetpassword']) === -1;
             var loggedIn = $rootScope.globals.currentUser;
             if (restrictedPage && !loggedIn) {
                 $location.path('/login');

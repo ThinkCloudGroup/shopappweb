@@ -34,6 +34,14 @@
 			password : "",
 			client_id : "fooClientIdPassword"
 		};
+		
+		var tempParam = {
+				grant_type : "password",
+				username : "",
+				password : "",
+				client_id : "fooClientIdPassword"
+		}
+		
 		$scope.refreshData = {
 			grant_type : "refresh_token"
 		};
@@ -90,17 +98,17 @@
 		;
 
 		function obtainAccessToken(params) {
-			var tempPass = params.password;
-			params.password = CryptoJS.MD5(params.password).toString();
+			//var tempPass = params.password;
+			tempParam.password = CryptoJS.MD5(params.password).toString();
+			tempParam.username = params.username;
 			var req = {
 				method : 'POST',
 				url : "oauth/token",
 				headers : {
 					"Content-type" : "application/x-www-form-urlencoded; charset=utf-8"
 				},
-				data : $httpParamSerializer(params)
+				data : $httpParamSerializer(tempParam)
 			}
-			console.log($httpParamSerializer(params));
 			$http(req)
 					.then(
 							function(data) {
@@ -118,7 +126,7 @@
 
 							},
 							function(err) {
-								params.password = tempPass;
+								//params.password = tempPass;
 								$scope.hasError = true;
 								if (err.data.error_description == "Bad credentials") {
 									$scope.errors
