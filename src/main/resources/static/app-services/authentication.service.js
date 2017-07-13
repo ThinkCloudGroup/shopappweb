@@ -161,8 +161,18 @@
 		}
 
 		function ClearCredentials() {
+			
+			//$.cookie("filter", null);
+			//$.removeCookie("filter);
+			//$.cookie('refreshToken', null, { path: '/' });
+			//$.removeCookie('refreshToken', { path: '/' });
+			//$.cookie('refreshToken', null, {path:'/'})
+			//document.cookie = 'refreshToken' + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+			//$.removeCookie('the_cookie', { path: '/' });
 			$rootScope.globals = {};
 			$cookies.remove('globals');
+			$rootScope.refreshToken = {};
+			$cookies.remove("refreshToken");
 			$http.defaults.headers.common.Authorization = 'Basic';
 		}
 	}

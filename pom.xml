@@ -99,10 +99,53 @@
     <build>
         <finalName>spring-security-oauth-ui-password</finalName>
         <resources>
+        <!-- 
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                 <excludes>
+		            <exclude>static/fonts/**</exclude>
+		        </excludes>
             </resource>
+             -->
+            <resource>
+		        <directory>${project.basedir}/src/main/resources</directory>
+		        <filtering>true</filtering>
+		        <excludes>
+		            <exclude>static/admin/fonts/**</exclude>
+		            <exclude>static/admin/assets/fonts/**</exclude>	
+		        </excludes>
+		    </resource>
+		
+		    <resource>
+		        <directory>${project.basedir}/src/main/resources</directory>
+		        <filtering>false</filtering>
+		        <includes>
+		            <include>static/admin/fonts/**</include>
+		            <include>static/admin/assets/fonts/**</include>		            
+		        </includes>
+		    </resource>
+            
+
+        <resource>
+            <directory>${project.basedir}/src/main/resources/static</directory>
+            <filtering>true</filtering>
+            <excludes>
+                <exclude>static/admin/assets/fonts/*.woff</exclude>
+                <exclude>static/admin/assets/fonts/*.woff2</exclude>
+                <exclude>static/admin/assets/fonts/*.ttf</exclude>
+            </excludes>
+        </resource>
+        <resource>
+            <directory>${project.basedir}/src/main/resources/static</directory>
+            <filtering>false</filtering>
+            <includes>
+                <include>static/admin/assets/fonts/*.woff</include>
+                <include>static/admin/assets/fonts/*.woff2</include>
+                <include>static/admin/assets/fonts/*.ttf</include>
+            </includes>
+        </resource>
+
         </resources>
         
         <plugins>  

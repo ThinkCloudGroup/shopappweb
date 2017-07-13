@@ -8,6 +8,3 @@ zuul:
     shopapp:
       path: /shopapp/**
       url: http://localhost:8080
-    books:
-      path: /books/**
-      url: http://localhost:8090

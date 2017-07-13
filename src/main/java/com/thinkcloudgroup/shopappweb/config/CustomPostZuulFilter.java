@@ -21,7 +21,7 @@ public class CustomPostZuulFilter extends ZuulFilter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper mapper = new ObjectMapper();
-
+    
     public Object run() {
         final RequestContext ctx = RequestContext.getCurrentContext();
         logger.info("in zuul filter " + ctx.getRequest().getRequestURI());
@@ -43,7 +43,8 @@ public class CustomPostZuulFilter extends ZuulFilter {
                 cookie.setHttpOnly(true);
                 // cookie.setSecure(true);
                 cookie.setPath(ctx.getRequest().getContextPath() + "/oauth/token");
-                cookie.setMaxAge(2592000); // 30 days
+                //cookie.setMaxAge(2592000); // 30 days
+                cookie.setMaxAge(60); // 60 seconds
                 ctx.getResponse().addCookie(cookie);
                 logger.info("refresh token = " + refreshToken);
 

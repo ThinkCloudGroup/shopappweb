@@ -29,17 +29,18 @@ public class CustomPreZuulFilter extends ZuulFilter {
             ctx.addZuulRequestHeader("Authorization", "Basic " + new String(encoded));
             logger.info("pre filter");
             logger.info(ctx.getRequest().getHeader("Authorization"));
+            //logger.info(ctx.getRequest().toString());
 
             final HttpServletRequest req = ctx.getRequest();
 
             final String refreshToken = extractRefreshToken(req);
-            if (refreshToken != null) {
+            /*if (refreshToken != null) {
                 final Map<String, String[]> param = new HashMap<String, String[]>();
                 param.put("refresh_token", new String[] { refreshToken });
                 param.put("grant_type", new String[] { "refresh_token" });
 
                 ctx.setRequest(new CustomHttpServletRequest(req, param));
-            }
+            }*/
 
         } catch (final UnsupportedEncodingException e) {
             logger.error("Error occured in pre filter", e);
