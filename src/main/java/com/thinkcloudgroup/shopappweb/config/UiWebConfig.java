@@ -38,7 +38,9 @@ public class UiWebConfig extends WebMvcConfigurerAdapter {
         //registry.addViewController("/login");
         //registry.addViewController("/home");
         //registry.addViewController("/release/auth");
-        registry.addViewController("/admin/tcg");
+        //registry.addViewController("/admin/tcg");
+        //registry.addViewController("/ng2-admin/tcg");
+        registry.addViewController("/shopadmin/tcg");
         //registry.addViewController("/dashboard/index");
     }
 

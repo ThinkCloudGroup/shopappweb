@@ -97,7 +97,7 @@
     
     
     <build>
-        <finalName>spring-security-oauth-ui-password</finalName>
+        <finalName>shopappweb</finalName>
         <resources>
         <!-- 
             <resource>
@@ -112,8 +112,12 @@
 		        <directory>${project.basedir}/src/main/resources</directory>
 		        <filtering>true</filtering>
 		        <excludes>
+		        	<!-- 
 		            <exclude>static/admin/fonts/**</exclude>
-		            <exclude>static/admin/assets/fonts/**</exclude>	
+		            <exclude>static/admin/assets/fonts/**</exclude>
+		             -->	
+		             <exclude>static/shopadmin/**</exclude>
+		            <exclude>static/shopadmin/assets/fonts/**</exclude>
 		        </excludes>
 		    </resource>
 		
@@ -121,8 +125,12 @@
 		        <directory>${project.basedir}/src/main/resources</directory>
 		        <filtering>false</filtering>
 		        <includes>
+		        	<!-- 
 		            <include>static/admin/fonts/**</include>
-		            <include>static/admin/assets/fonts/**</include>		            
+		            <include>static/admin/assets/fonts/**</include>
+		             -->
+		            <include>static/shopadmin/**</include>
+		            <include>static/shopadmin/assets/fonts/**</include>		            
 		        </includes>
 		    </resource>
             
@@ -131,18 +139,28 @@
             <directory>${project.basedir}/src/main/resources/static</directory>
             <filtering>true</filtering>
             <excludes>
-                <exclude>static/admin/assets/fonts/*.woff</exclude>
-                <exclude>static/admin/assets/fonts/*.woff2</exclude>
-                <exclude>static/admin/assets/fonts/*.ttf</exclude>
+            	
+                <exclude>static/shopadmin/assets/fonts/*.woff</exclude>
+                <exclude>static/shopadmin/assets/fonts/*.woff2</exclude>
+                <exclude>static/shopadmin/assets/fonts/*.ttf</exclude>
+                 
+                <exclude>static/shopadmin/*.woff</exclude>
+                <exclude>static/shopadmin/*.woff2</exclude>
+                <exclude>static/shopadmin/*.ttf</exclude>
             </excludes>
         </resource>
         <resource>
             <directory>${project.basedir}/src/main/resources/static</directory>
             <filtering>false</filtering>
             <includes>
-                <include>static/admin/assets/fonts/*.woff</include>
-                <include>static/admin/assets/fonts/*.woff2</include>
-                <include>static/admin/assets/fonts/*.ttf</include>
+            	
+                <include>static/shopadmin/assets/fonts/*.woff</include>
+                <include>static/shopadmin/assets/fonts/*.woff2</include>
+                <include>static/shopadmin/assets/fonts/*.ttf</include>
+                
+                <include>static/shopadmin/*.woff</include>
+                <include>static/shopadmin/*.woff2</include>
+                <include>static/shopadmin/*.ttf</include>
             </includes>
         </resource>
 

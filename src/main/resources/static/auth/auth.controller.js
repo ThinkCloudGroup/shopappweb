@@ -55,7 +55,7 @@
 
 			if ($cookies.get("access_token")) {
 				//$cookies.remove("access_token");			    
-				window.location.href = "/admin/tcg";
+				window.location.href = "/shopadmin/tcg";
 			}
 		} else {
 			if ($cookies.get("access_token")) {
@@ -122,7 +122,7 @@
 										});
 */
 								AuthenticationService.SetCredentials($scope.loginData.username, $scope.loginData.password, data.data.access_token, data.data.expires_in);
-								window.location.href = "/admin/tcg";
+								window.location.href = "/shopadmin/tcg";
 								// $location.path('/');
 
 							},
